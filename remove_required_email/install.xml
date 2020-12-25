@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <name>Удаление проверки поля email</name>
+    <code>remove-required-email</code>
+    <version>1.0.0</version>
+    <author>romanbr88</author>
+    <link>https://github.com/romanbr88/mod_opencart</link>
+
+    <file path="catalog/controller/api/customer.php">
+        <operation>
+            <search><![CDATA[
+			$json['error']['email'] = $this->language->get('error_email');
+			]]></search>
+            <add position="replace"><![CDATA[
+				/* $json['error']['email'] = $this->language->get('error_email'); */
+			]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/mbuy/checkout.php">
+        <operation>
+            <search><![CDATA[
+			if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
+			]]></search>
+            <add position="replace" offset="2"><![CDATA[]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[
+			$order_data['email'] = $this->request->post['email'];
+			]]></search>
+            <add position="replace"><![CDATA[
+				$order_data['email'] = isset($this->request->post['email']) ? $this->request->post['email'] : '';
+			]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/mbuy/guest.php">
+        <operation>
+            <search><![CDATA[
+			$this->session->data['email'] = $this->request->post['email'];
+			]]></search>
+            <add position="replace"><![CDATA[
+				$this->session->data['email'] = isset($this->request->post['email']) ? $this->request->post['email'] : '';
+			]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/mail/order.php">
+        <operation>
+            <search><![CDATA[
+			$mail->setHtml($this->load->view('mail/order_add', $data));
+			]]></search>
+            <add position="replace" offset="1"><![CDATA[
+                $mail->setHtml($this->load->view('mail/order_add', $data));
+                if (isset($order_info['email']) && !empty($order_info['email'])) {
+                    $mail->send();
+                }
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[
+			$mail->setText($this->load->view('mail/order_edit', $data));
+			]]></search>
+            <add position="replace" offset="1"><![CDATA[
+                $mail->setText($this->load->view('mail/order_edit', $data));
+                if (isset($order_info['email']) && !empty($order_info['email'])) {
+                    $mail->send();
+                }
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>
