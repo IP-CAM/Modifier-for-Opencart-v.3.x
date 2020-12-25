@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <name>Сохранение и передача utm меток в retailCRM</name>
+    <code>add-utm-to-retailcrm</code>
+    <version>1.0.0</version>
+    <author>romanbr88</author>
+    <link>https://github.com/romanbr88/mod_opencart</link>
+
+    <file path="catalog/controller/common/header.php">
+        <operation>
+            <search><![CDATA[
+			public function index() {
+			]]></search>
+            <add position="after"><![CDATA[
+	    $utms = [];
+        $cookieTime = time() + (60 * 60 * 24 * 30);
+
+        $utm_keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+        foreach($utm_keys as $key) {
+            if (isset($_GET[$key]) && !empty($_GET[$key])) {
+                $utms[$key] = strip_tags((string) stripslashes($_GET[$key]));
+            }
+        }
+
+        if (count($utms) > 0) {
+            setcookie('utm_params', json_encode($utms), $cookieTime, '/');
+        }
+			]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/model/extension/retailcrm/order.php">
+        <operation>
+            <search><![CDATA[
+			$order['customerComment'] = $order_data['comment'];
+			]]></search>
+            <add position="after"><![CDATA[
+        if (isset($_COOKIE['utm_params'])) {
+            $utms = json_decode(stripslashes($_COOKIE['utm_params']), true);
+            foreach ($utms as $key => $val) {
+                $key = str_replace('utm_', '', $key);
+                $key = str_replace('term', 'keyword', $key);
+                $order['source'][$key] = $val;
+            }
+        }
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>
