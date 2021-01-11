@@ -11,4 +11,4 @@ ___
 
 ---
 #### add_utm_to_retailcrm
-Сохраняет UTM метки в куки и передает их в retailCRM (необходима установка [модуля retailCRM](https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=26049)).
+Сохраняет UTM метки в куки, сохраняет их в переменную **utm_params** для использования в письме администратору и передает их в retailCRM (необходима установка [модуля retailCRM](https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=26049)).

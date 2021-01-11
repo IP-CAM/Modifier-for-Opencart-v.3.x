@@ -2,7 +2,7 @@
 <modification>
     <name>Сохранение и передача utm меток в retailCRM</name>
     <code>add-utm-to-retailcrm</code>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <author>romanbr88</author>
     <link>https://github.com/romanbr88/mod_opencart</link>
 
@@ -25,6 +25,22 @@
             setcookie('utm_params', json_encode($utms), time() + 60 * 60 * 24 * 30, '/');
         }
 			]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/mail/order.php">
+        <operation>
+            <search><![CDATA[
+			$this->load->language('mail/order_alert');
+			]]></search>
+            <add position="after"><![CDATA[
+        if (isset($_COOKIE['utm_params'])) {
+            $data['utm_params'] = json_decode(stripslashes($_COOKIE['utm_params']), true);
+        }
+
+        $data['telephone'] = $order_info['telephone'];
+        $data['firstname'] = $order_info['firstname'];
+            ]]></add>
         </operation>
     </file>
 
