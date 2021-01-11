@@ -2,29 +2,27 @@
 <modification>
     <name>Сохранение и передача utm меток в retailCRM</name>
     <code>add-utm-to-retailcrm</code>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <author>romanbr88</author>
     <link>https://github.com/romanbr88/mod_opencart</link>
 
-    <file path="catalog/controller/common/header.php">
+    <file path="catalog/controller/startup/startup.php">
         <operation>
             <search><![CDATA[
 			public function index() {
 			]]></search>
             <add position="after"><![CDATA[
-	    $utms = [];
-        $cookieTime = time() + (60 * 60 * 24 * 30);
-
+        $utms = [];
         $utm_keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
 
         foreach($utm_keys as $key) {
-            if (isset($_GET[$key]) && !empty($_GET[$key])) {
-                $utms[$key] = strip_tags((string) stripslashes($_GET[$key]));
+            if (isset($this->request->get[$key]) && !empty($this->request->get[$key])) {
+                $utms[$key] = strip_tags((string) stripslashes($this->request->get[$key]));
             }
         }
 
         if (count($utms) > 0) {
-            setcookie('utm_params', json_encode($utms), $cookieTime, '/');
+            setcookie('utm_params', json_encode($utms), time() + 60 * 60 * 24 * 30, '/');
         }
 			]]></add>
         </operation>
