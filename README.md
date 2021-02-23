@@ -1,14 +1,14 @@
-# Наборы модификаторов для Opencart
-Все модификаторы проверялись на Opencart 3.x. Работа в других версиях не гарантируется.
+# Sets of modifiers for OpenCart
+All modifiers were checked on OpenCart 3.x. Work in other versions is not guaranteed.
 
-### Список модификаторов:
-- [remove_required_email](#remove_required_email)
-- [add_utm_to_retailcrm](#add_utm_to_retailcrm)
+### Modifier list:
+- [Remove_required_Email] (# remove_required_email)
+- [add_utm_to_retailcrm] (# add_utm_to_retailcrm)
 
 ___
 #### remove_required_email
-Делает поле **email** необязательным для заполнения и отключает отправку письма покупателю если это поле не заполнено.
+Makes the ** email field ** optional to fill and disables the sending of the letter to the buyer if this field is not filled.
 
----
+----
 #### add_utm_to_retailcrm
-Сохраняет UTM метки в куки, сохраняет их в переменную **utm_params** для использования в письме администратору и передает их в retailCRM (необходима установка [модуля retailCRM](https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=26049)).
+Saves UTM tags in cookies, saves them to a variable ** utm_params ** To use in a letter to the administrator and transmits them to RetailCRM (Installing [RetailCRM module] (https://www.opencart.com/index.php?Route=MarketPlace / Extension / info & extension_id = 26049)). 
